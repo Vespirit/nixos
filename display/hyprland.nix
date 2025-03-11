@@ -5,6 +5,7 @@
       enable = true;
       xwayland.enable = true;
     };
+#(pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];}))
     waybar.enable = true;
     hyprlock.enable = true;
     nm-applet.indicator = true;
@@ -20,14 +21,7 @@
     };
 
     xwayland.enable = true;
-    dconf.enable = true;
     seahorse.enable = true;
-    fuse.userAllowOther = true;
-    mtr.enable = true;
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
   };
 
 
@@ -48,8 +42,42 @@
   };
 
   environment.systemPackages = with pkgs; [
+    cava
+    cliphist
+    loupe
+    gnome-system-monitor
+    grim
+    gtk-engine-murrine #for gtk themes
+    imagemagick 
+    inxi
+    jq
     kitty
+    libsForQt5.qtstyleplugin-kvantum #kvantum
+    (mpv.override {scripts = [mpvScripts.mpris];}) # with tray
+    networkmanagerapplet
+    nwg-displays
+    nwg-look
+    pamixer
+    pavucontrol
+    playerctl
+    polkit_gnome
+    pyprland
+    libsForQt5.qt5ct
+    kdePackages.qt6ct
+    kdePackages.qtwayland
+    kdePackages.qtstyleplugin-kvantum #kvantum
     rofi-wayland
+    slurp
+    swappy
+    swaynotificationcenter
+    swww
+    unzip
+    wallust
+    wl-clipboard
+    wlogout
+    xarchiver
+    yad
+    yt-dlp
   ];
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";

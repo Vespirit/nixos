@@ -4,20 +4,16 @@
 with lib;
 {
   services.xserver.videoDrivers = [ "nvidia" ];
-    
-  hardware.graphics = {
-  	enable = true;
-  	enable32Bit = true;
-	  extraPackages = with pkgs; [
-	    vaapiVdpau
-  	  libvdpau
-  	  libvdpau-va-gl 
-  	  nvidia-vaapi-driver
-  	  vdpauinfo
-	    libva
- 		  libva-utils	
-    	];
-  	};
+  
+  hardware.graphics.extraPackages = with pkgs; [
+    vaapiVdpau
+    libvdpau
+    libvdpau-va-gl 
+    nvidia-vaapi-driver
+    vdpauinfo
+    libva
+    libva-utils	
+  ];
 
   hardware.nvidia = {
     # Modesetting is required.
@@ -30,7 +26,7 @@ with lib;
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = false;
       
-    #dynamicBoost.enable = true; # Dynamic Boost
+    dynamicBoost.enable = false; # Dynamic Boost
 
     nvidiaPersistenced = false;
 
@@ -46,9 +42,11 @@ with lib;
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
       
-    nvidiaSettings = true;
-      
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.latest;
+
   };
+  environment.systemPackages = with pkgs; [
+    nvtopPackages.full
+  ];
 }

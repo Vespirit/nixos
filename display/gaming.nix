@@ -12,6 +12,6 @@ in
 
   environment.systemPackages = with pkgs; [
     lutris
-        #    nix-gaming.packages.${hostPlatform.system}.osu-stable
+    nix-gaming.packages.${hostPlatform.system}.osu-stable
   ];
 }

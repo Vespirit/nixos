@@ -6,12 +6,23 @@
     ./hyprland.nix
     ./gaming.nix
   ];
+  hardware.enableRedistributableFirmware = true;
+
+  hardware.graphics = { 
+  	enable = true;
+  	enable32Bit = true;
+  };
 
   programs = {
     firefox.enable = true;
   };
-
+  
   environment.systemPackages = with pkgs; [
-    zenity
+    vesktop
+    spotify
+    baobab
+    xdg-user-dirs
+    xdg-utils
+    duf
   ];
 } 

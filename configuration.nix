@@ -21,7 +21,7 @@
     loader.timeout = 5;
 
     # kernel 
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
+    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
 
     kernelParams = [
       "systemd.mask=systemd-vconsole-setup.service"
@@ -72,38 +72,7 @@
   # opentabletdriver
   hardware.opentabletdriver.enable = true;
   
-  services = {
-    # Enable CUPS to print documents.
-    printing.enable = true;
-
-    # smartmontools
-    smartd = {
-      enable = false;
-      autodetect = true;
-    };
-
-    gvfs.enable = true;
-    tumbler.enable = true;
-    udev.enable = true;
-    envfs.enable = true;
-    dbus.enable = true;
-
-    fstrim = {
-      enable = true;
-      interval = "weekly";
-    };
-
-    libinput.enable = true;
-    rpcbind.enable = false;
-    nfs.server.enable = false;
-    # Enable the OpenSSH daemon.
-    openssh.enable = true;
-    blueman.enable = true;
-    fwupd.enable = true;
-    upower.enable = true;
-    gnome.gnome-keyring.enable = true;
-  };
-
+  
   zramSwap = {
     enable = true;
 	priority = 100;
@@ -229,11 +198,6 @@
     ];
   };
 
-  programs = {
-    neovim.enable = true;
-    fzf.fuzzyCompletion = true;
-  };
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -251,12 +215,9 @@
 
     # jakoolit
     bc
-    baobab
-    btrfs-progs
     clang
     curl
     cpufrequtils
-    duf
     ffmpeg   
     glib #for gsettings to work
     gsettings-qt
@@ -265,66 +226,54 @@
     libnotify
     openssl #required by Rainbow borders
     pciutils
-    xdg-user-dirs
-    xdg-utils
-
-    (mpv.override {scripts = [mpvScripts.mpris];}) # with tray
-    #ranger
-      
-    # Hyprland Stuff
-    #(ags.overrideAttrs (oldAttrs: { inherit (oldAttrs) pname; version = "1.8.2"; }))
-    ags # desktop overview  
-    btop
-    brightnessctl # for brightness control
-    cava
-    cliphist
-    loupe
-    gnome-system-monitor
-    grim
-    gtk-engine-murrine #for gtk themes
-    imagemagick 
-    inxi
-    jq
-    kitty
-    libsForQt5.qtstyleplugin-kvantum #kvantum
-    networkmanagerapplet
-    nwg-displays
-    nwg-look
-    pamixer
-    pavucontrol
-    playerctl
-    polkit_gnome
-    pyprland
-    libsForQt5.qt5ct
-    kdePackages.qt6ct
-    kdePackages.qtwayland
-    kdePackages.qtstyleplugin-kvantum #kvantum
-    rofi-wayland
-    slurp
-    swappy
-    swaynotificationcenter
-    swww
-    unzip
-    wallust
-    wl-clipboard
-    wlogout
-    xarchiver
-    yad
-    yt-dlp
-
-    #waybar  # if wanted experimental next line
-    #(pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];}))
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs = {
+    mtr.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+    fuse.userAllowOther = true;
+    neovim.enable = true;
+    fzf.fuzzyCompletion = true;
+    dconf.enable = true;
+  };
 
   # List services that you want to enable:
+  services = {
+    # Enable CUPS to print documents.
+    printing.enable = true;
+
+    # smartmontools
+    smartd = {
+      enable = false;
+      autodetect = true;
+    };
+
+    gvfs.enable = true;
+    tumbler.enable = true;
+    udev.enable = true;
+    envfs.enable = true;
+    dbus.enable = true;
+
+    fstrim = {
+      enable = true;
+      interval = "weekly";
+    };
+
+    libinput.enable = true;
+    rpcbind.enable = false;
+    nfs.server.enable = false;
+    # Enable the OpenSSH daemon.
+    openssh.enable = true;
+    blueman.enable = true;
+    fwupd.enable = true;
+    upower.enable = true;
+    gnome.gnome-keyring.enable = true;
+  };
 
 
   # Open ports in the firewall.
