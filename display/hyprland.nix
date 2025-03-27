@@ -35,7 +35,7 @@
       initial_session = {
       
         command = "${pkgs.hyprland}/bin/Hyprland";
-	user = "ves";
+	    user = "ves";
       };
       default_session = initial_session;
     };

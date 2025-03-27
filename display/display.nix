@@ -2,9 +2,8 @@
 {
   imports = [
     ./nvidia.nix
-    ./flatpak.nix
+    ./gaming/gaming.nix
     ./hyprland.nix
-    ./gaming.nix
   ];
   hardware.enableRedistributableFirmware = true;
 
@@ -18,11 +17,12 @@
   };
   
   environment.systemPackages = with pkgs; [
-    vesktop
-    spotify
     baobab
     xdg-user-dirs
     xdg-utils
     duf
+    vesktop
+    spotify
+    obs-studio
   ];
 } 

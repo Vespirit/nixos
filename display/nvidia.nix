@@ -3,8 +3,11 @@
 { lib, pkgs, config, ... }:
 with lib;
 {
+  boot.initrd.kernelModules = [ "nvidia" ];
+  boot.blacklistedKernelModules = [ "nouveau" ];
   services.xserver.videoDrivers = [ "nvidia" ];
   
+  hardware.graphics.enable = true;
   hardware.graphics.extraPackages = with pkgs; [
     vaapiVdpau
     libvdpau
@@ -13,6 +16,7 @@ with lib;
     vdpauinfo
     libva
     libva-utils	
+    rocmPackages.clr
   ];
 
   hardware.nvidia = {
@@ -43,7 +47,7 @@ with lib;
     # accessible via `nvidia-settings`.
       
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   };
   environment.systemPackages = with pkgs; [

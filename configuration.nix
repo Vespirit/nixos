@@ -2,16 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
+      ./hardware-configuration.nix
       ./git.nix
       ./display/display.nix
       ./appimage.nix
       ./fonts.nix
+      ./rclone.nix
     ];
 
   boot = {
@@ -21,7 +22,7 @@
     loader.timeout = 5;
 
     # kernel 
-    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
 
     kernelParams = [
       "systemd.mask=systemd-vconsole-setup.service"
@@ -33,6 +34,7 @@
 
     kernelModules = [
       "v4l2loopback"
+      "ntsync"
     ];
     extraModulePackages = [
       config.boot.kernelPackages.v4l2loopback
@@ -76,7 +78,7 @@
   zramSwap = {
     enable = true;
 	priority = 100;
-	memoryPercent = 30;
+	memoryPercent = 13;
 	swapDevices = 1;
     algorithm = "zstd";
   };
@@ -118,8 +120,16 @@
         "nix-command"
         "flakes"
       ];
-      substituters = [ "https://hyprland.cachix.org" ];
-      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+      substituters = [
+      	"https://hyprland.cachix.org"
+	      "https://nix-gaming.cachix.org"
+        "https://nix-community.cachix.org"
+      ];
+      trusted-public-keys = [ 
+      	"hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+	      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
     };
     gc = {
       automatic = true;
@@ -129,7 +139,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -144,25 +154,25 @@
         {
           name = "libpipewire-module-protocol-pulse";
           args = {
-            pulse.min.req = "16/48000";
-            pulse.default.req = "16/48000";
-            pulse.max.req = "16/48000";
-            pulse.min.quantum = "16/48000";
-            pulse.max.quantum = "16/48000";
+            pulse.min.req = "32/48000";
+            pulse.default.req = "32/48000";
+            pulse.max.req = "32/48000";
+            pulse.min.quantum = "32/48000";
+            pulse.max.quantum = "32/48000";
           };
         }
       ];
       stream.properties = {
-        node.latency = "16/48000";
+        node.latency = "32/48000";
         resample.quality = 1;
       };
     };
     extraConfig.pipewire."92-low-latency" = {
       "context.properties" = {
         "default.clock.rate" = 48000;
-        "default.clock.quantum" = 16;
-        "default.clock.min-quantum" = 16;
-        "default.clock.max-quantum" = 16;
+        "default.clock.quantum" = 32;
+        "default.clock.min-quantum" = 32;
+        "default.clock.max-quantum" = 32;
       };
     };   
     wireplumber.configPackages = [
@@ -184,9 +194,6 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ves = {
@@ -216,6 +223,8 @@
     # jakoolit
     bc
     clang
+    nil
+    nixd
     curl
     cpufrequtils
     ffmpeg   
@@ -252,7 +261,6 @@
       enable = false;
       autodetect = true;
     };
-
     gvfs.enable = true;
     tumbler.enable = true;
     udev.enable = true;
@@ -290,4 +298,10 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [ "update-input" "nixpkgs" "-L" ];
+    dates = "04:00";
+  };
 }
