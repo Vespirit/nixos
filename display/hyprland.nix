@@ -1,8 +1,9 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   programs = {
     hyprland = {
       enable = true;
+      withUWSM = true;
       xwayland.enable = true;
     };
 #(pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];}))
@@ -13,7 +14,6 @@
     thunar = {
       enable = true;
       plugins = with pkgs.xfce; [
-        exo
         thunar-archive-plugin
         thunar-volman
         tumbler
@@ -24,18 +24,51 @@
     seahorse.enable = true;
   };
 
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "schedutil";
+  };
+
+  security.pam.services.swaylock = {
+    text = ''
+      auth include login
+    '';
+  };
 
   services = {
     hypridle.enable = true;
+    gnome.gnome-keyring.enable = true;
+
+    # smartmontools
+    smartd = {
+      enable = false;
+      autodetect = true;
+    };
+    gvfs.enable = true;
+    tumbler.enable = true;
+    udev.enable = true;
+    envfs.enable = true;
+    dbus.enable = true;
+
+    fstrim = {
+      enable = true;
+      interval = "weekly";
+    };
+
+    rpcbind.enable = false;
+    nfs.server.enable = false;
+    blueman.enable = true;
+    fwupd.enable = true;
+    upower.enable = true;
+
   };
 
   services.greetd = {
     enable = true;
     settings = rec {
       initial_session = {
-      
         command = "${pkgs.hyprland}/bin/Hyprland";
-	    user = "ves";
+	      user = "ves";
       };
       default_session = initial_session;
     };

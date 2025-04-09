@@ -7,13 +7,14 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
       ./git.nix
-      ./display/display.nix
+      ./display
       ./appimage.nix
       ./fonts.nix
-      ./rclone.nix
     ];
+
+  hardware.i2c.enable = true;
 
   boot = {
     # Bootloader.
@@ -44,7 +45,6 @@
       availableKernelModules = [
         "xhci_pci"
         "ahci"
-        "nvme"
         "usb_storage"
         "usbhid"
         "sd_mod"
@@ -74,7 +74,6 @@
   # opentabletdriver
   hardware.opentabletdriver.enable = true;
   
-  
   zramSwap = {
     enable = true;
 	priority = 100;
@@ -83,34 +82,7 @@
     algorithm = "zstd";
   };
 
-  powerManagement = {
-    enable = true;
-    cpuFreqGovernor = "schedutil";
-  };
-
-  # Security / Polkit
-  security.polkit.enable = true;
-  security.polkit.extraConfig = ''
-    polkit.addRule(function(action, subject) {
-      if (
-        subject.isInGroup("users")
-          && (
-            action.id == "org.freedesktop.login1.reboot" ||
-            action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
-            action.id == "org.freedesktop.login1.power-off" ||
-            action.id == "org.freedesktop.login1.power-off-multiple-sessions"
-          )
-        )
-      {
-        return polkit.Result.YES;
-      }
-    })
-  '';
-  security.pam.services.swaylock = {
-    text = ''
-      auth include login
-    '';
-  };
+  documentation.nixos.enable = false;
 
   # Cachix, Optimization settings and garbage collection automation
   nix = {
@@ -219,8 +191,10 @@
     htop
     ripgrep
     home-manager
+    rclone
 
     # jakoolit
+    unzip
     bc
     clang
     nil
@@ -240,7 +214,6 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs = {
-    mtr.enable = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -255,34 +228,9 @@
   services = {
     # Enable CUPS to print documents.
     printing.enable = true;
-
-    # smartmontools
-    smartd = {
-      enable = false;
-      autodetect = true;
-    };
-    gvfs.enable = true;
-    tumbler.enable = true;
-    udev.enable = true;
-    envfs.enable = true;
-    dbus.enable = true;
-
-    fstrim = {
-      enable = true;
-      interval = "weekly";
-    };
-
-    libinput.enable = true;
-    rpcbind.enable = false;
-    nfs.server.enable = false;
-    # Enable the OpenSSH daemon.
     openssh.enable = true;
-    blueman.enable = true;
-    fwupd.enable = true;
-    upower.enable = true;
-    gnome.gnome-keyring.enable = true;
+    libinput.enable = true;
   };
-
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -301,7 +249,7 @@
   system.autoUpgrade = {
     enable = true;
     flake = inputs.self.outPath;
-    flags = [ "update-input" "nixpkgs" "-L" ];
+    flags = [ "--update-input" "nixpkgs" "-L" ];
     dates = "04:00";
   };
 }

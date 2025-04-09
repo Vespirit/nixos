@@ -3,7 +3,17 @@
 { lib, pkgs, config, ... }:
 with lib;
 {
-  boot.initrd.kernelModules = [ "nvidia" ];
+  boot.kernelParams = [ 
+    "nvidia_drm.fbdev=1" 
+    "nvidia.NVreg_RegistryDwords=\"PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3\""
+  ];
+  boot.initrd.kernelModules = [ 
+    "nvidia" 
+    "nvidia_modeset"
+    "nvidia_uvm"
+    "nvidia_drm"
+    "nvme" # xanmod
+  ];
   boot.blacklistedKernelModules = [ "nouveau" ];
   services.xserver.videoDrivers = [ "nvidia" ];
   

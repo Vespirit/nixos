@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   services = {
     xserver.enable = true;
@@ -7,7 +7,7 @@
         enable = true;
         wayland.enable = true;
       };
-      defaultSession = "plasma";
+      #defaultSession = "plasmax11";
     };
     desktopManager.plasma6.enable = true;
   };
@@ -15,5 +15,14 @@
     plasma-browser-integration
     konsole
     oxygen
+    kate
+    khelpcenter
+    discover
+  ];
+
+  environment.systemPackages = with pkgs; [
+    kitty
+    (mpv.override {scripts = [mpvScripts.mpris];})
+    kdePackages.applet-window-buttons6
   ];
 }

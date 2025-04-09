@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{ pkgs, ...}:
 {
   fonts.packages = with pkgs; [
     noto-fonts
@@ -8,6 +8,7 @@
     font-awesome
     terminus_font
     victor-mono
+
     #(nerdfonts.override {fonts = ["FantasqueSansMono"];}) # stable banch
     
     nerd-fonts.jetbrains-mono # unstable 
