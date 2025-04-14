@@ -16,5 +16,8 @@
     inputs.nix-gaming.packages.${pkgs.system}.osu-stable
     osu-lazer-bin
     heroic
+    (prismlauncher.override {
+      textToSpeechSupport = false;
+    })
   ];
 }
