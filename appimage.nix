@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   programs.appimage.enable = true;
   boot.binfmt.registrations.appimage = {
