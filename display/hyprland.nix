@@ -108,6 +108,7 @@
     wallust
     wl-clipboard
     wlogout
+    wlsunset
     xarchiver
     yad
     yt-dlp
