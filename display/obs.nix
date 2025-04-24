@@ -6,8 +6,5 @@
         plugins = with pkgs.obs-studio-plugins; [
             obs-pipewire-audio-capture
         ];
-        package = (pkgs.obs-studio.override {
-            cudaSupport = true;
-        });
     };
 }
