@@ -254,6 +254,6 @@
     enable = true;
     flake = inputs.self.outPath;
     flags = [ "--update-input" "nixpkgs" "-L" ];
-    dates = "04:00";
+    dates = "weekly";
   };
 }
