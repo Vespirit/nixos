@@ -231,14 +231,24 @@
   # List services that you want to enable:
   services = {
     # Enable CUPS to print documents.
-    printing.enable = true;
+    printing = {
+      enable = true;
+      drivers = with pkgs; [
+        hplipWithPlugin
+      ];
+    };
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
     openssh.enable = true;
     libinput.enable = true;
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 631 ];
+  networking.firewall.allowedUDPPorts = [ 631 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
