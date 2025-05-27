@@ -5,6 +5,7 @@
       enable = true;
       withUWSM = true;
       xwayland.enable = true;
+      systemd.setPath.enable = true;
     };
 #(pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];}))
     waybar.enable = true;
@@ -67,7 +68,7 @@
     enable = true;
     settings = rec {
       initial_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland";
+        command = "uwsm start -S hyprland-uwsm.desktop";
 	      user = "ves";
       };
       default_session = initial_session;
