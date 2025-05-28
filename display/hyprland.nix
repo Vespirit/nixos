@@ -82,6 +82,7 @@
     gnome-system-monitor
     grim
     gtk-engine-murrine #for gtk themes
+    hyprpolkitagent
     imagemagick 
     inxi
     jq
@@ -94,7 +95,6 @@
     pamixer
     pavucontrol
     playerctl
-    polkit_gnome
     pyprland
     libsForQt5.qt5ct
     kdePackages.qt6ct
