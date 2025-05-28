@@ -224,6 +224,7 @@
     };
     fuse.userAllowOther = true;
     neovim.enable = true;
+    neovim.defaultEditor = true;
     fzf.fuzzyCompletion = true;
     dconf.enable = true;
   };
