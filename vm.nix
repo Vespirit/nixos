@@ -2,7 +2,7 @@
 {
     virtualisation = {
         libvirtd.enable = true;
-        spiceUSBRedirection = true;
+        spiceUSBRedirection.enable = true;
     };
 
     users.groups.libvirtd.members = [ "ves" ];
