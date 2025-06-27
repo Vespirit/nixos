@@ -12,6 +12,7 @@
       ./display
       ./appimage.nix
       ./fonts.nix
+      ./vm.nix
     ];
 
   hardware.i2c.enable = true;
