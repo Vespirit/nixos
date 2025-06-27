@@ -6,6 +6,7 @@
     ./hyprland.nix
     ./obs.nix
     ./vesktop.nix
+    ./flatpak.nix
   ];
   hardware.enableRedistributableFirmware = true;
 
@@ -23,6 +24,7 @@
     xdg-user-dirs
     xdg-utils
     duf
+    lmms
     spotify
     processing
     yt-dlp

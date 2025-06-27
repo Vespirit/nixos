@@ -4,6 +4,7 @@
     (retroarch.withCores (cores: with cores; [
       melonds
       fceumm
+      dolphin
     ]))
   ];
 }

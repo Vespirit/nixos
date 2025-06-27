@@ -19,5 +19,8 @@
     (prismlauncher.override {
       textToSpeechSupport = false;
     })
+    bolt-launcher
+    dolphin-emu
+    lutris
   ];
 }
