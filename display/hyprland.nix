@@ -5,7 +5,7 @@
       enable = true;
       xwayland.enable = true;
     };
-#(pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];}))
+    #(pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];}))
     waybar.enable = true;
     hyprlock.enable = true;
     nm-applet.indicator = true;
@@ -56,7 +56,7 @@
 
     rpcbind.enable = false;
     nfs.server.enable = false;
-    blueman.enable = true;
+    #blueman.enable = true;
     fwupd.enable = true;
     upower.enable = true;
 
@@ -67,7 +67,7 @@
     settings = rec {
       initial_session = {
         command = "${pkgs.hyprland}/bin/Hyprland";
-	      user = "ves";
+        user = "ves";
       };
       default_session = initial_session;
     };
@@ -79,14 +79,14 @@
     loupe
     gnome-system-monitor
     grim
-    gtk-engine-murrine #for gtk themes
+    gtk-engine-murrine # for gtk themes
     hyprpolkitagent
-    imagemagick 
+    imagemagick
     inxi
     jq
     kitty
-    libsForQt5.qtstyleplugin-kvantum #kvantum
-    (mpv.override {scripts = [mpvScripts.mpris];}) # with tray
+    libsForQt5.qtstyleplugin-kvantum # kvantum
+    (mpv.override { scripts = [ mpvScripts.mpris ]; }) # with tray
     networkmanagerapplet
     nwg-displays
     nwg-look
@@ -97,7 +97,7 @@
     libsForQt5.qt5ct
     kdePackages.qt6ct
     kdePackages.qtwayland
-    kdePackages.qtstyleplugin-kvantum #kvantum
+    kdePackages.qtstyleplugin-kvantum # kvantum
     rofi-wayland
     slurp
     swappy
@@ -110,7 +110,6 @@
     wlsunset
     xarchiver
     yad
-    yt-dlp
   ];
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";

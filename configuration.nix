@@ -2,18 +2,23 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./git.nix
-      ./display
-      ./appimage.nix
-      ./fonts.nix
-      ./vm.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./git.nix
+    ./display
+    ./appimage.nix
+    ./fonts.nix
+    ./vm.nix
+  ];
 
   hardware.i2c.enable = true;
 
@@ -23,15 +28,15 @@
     loader.efi.canTouchEfiVariables = true;
     loader.timeout = 5;
 
-    # kernel 
+    # kernel
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
 
     kernelParams = [
       "systemd.mask=systemd-vconsole-setup.service"
-      "systemd.mask=dev-tpmrm0.device" #this is to mask that stupid 1.5 mins systemd bug
-      "nowatchdog" 
-      "modprobe.blacklist=sp5100_tco" #watchdog for AMD
-      "modprobe.blacklist=iTCO_wdt" #watchdog for Intel
+      "systemd.mask=dev-tpmrm0.device" # this is to mask that stupid 1.5 mins systemd bug
+      "nowatchdog"
+      "modprobe.blacklist=sp5100_tco" # watchdog for AMD
+      "modprobe.blacklist=iTCO_wdt" # watchdog for Intel
     ];
 
     kernelModules = [
@@ -74,12 +79,12 @@
 
   # opentabletdriver
   hardware.opentabletdriver.enable = true;
-  
+
   zramSwap = {
     enable = true;
-	priority = 100;
-	memoryPercent = 13;
-	swapDevices = 1;
+    priority = 100;
+    memoryPercent = 13;
+    swapDevices = 1;
     algorithm = "zstd";
   };
 
@@ -94,13 +99,13 @@
         "flakes"
       ];
       substituters = [
-      	"https://hyprland.cachix.org"
-	      "https://nix-gaming.cachix.org"
+        "https://hyprland.cachix.org"
+        "https://nix-gaming.cachix.org"
         "https://nix-community.cachix.org"
       ];
-      trusted-public-keys = [ 
-      	"hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-	      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+      trusted-public-keys = [
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
@@ -148,7 +153,7 @@
         "default.clock.min-quantum" = 32;
         "default.clock.max-quantum" = 32;
       };
-    };   
+    };
     wireplumber.configPackages = [
       (pkgs.writeTextDir "share/wireplumber/main.lua.d/99-alsa-lowlatency.lua" ''
         alsa_monitor.rules = {
@@ -173,17 +178,20 @@
   users.users.ves = {
     isNormalUser = true;
     description = "ves";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
-  nixpkgs.config = { 
-  # global cuda support
+  nixpkgs.config = {
+    # global cuda support
     cudaSupport = true;
-  # Allow unfree packages
-    allowUnfree = true; 
+    # Allow unfree packages
+    allowUnfree = true;
   };
 
   # List packages installed in system profile. To search, run:
@@ -206,13 +214,13 @@
     nixd
     curl
     cpufrequtils
-    ffmpeg   
-    glib #for gsettings to work
+    ffmpeg
+    glib # for gsettings to work
     gsettings-qt
-    killall  
+    killall
     libappindicator
     libnotify
-    openssl #required by Rainbow borders
+    openssl # required by Rainbow borders
     pciutils
   ];
 
@@ -226,6 +234,7 @@
     fuse.userAllowOther = true;
     neovim.enable = true;
     neovim.defaultEditor = true;
+    nano.enable = false;
     fzf.fuzzyCompletion = true;
     dconf.enable = true;
   };
@@ -265,7 +274,11 @@
   system.autoUpgrade = {
     enable = true;
     flake = inputs.self.outPath;
-    flags = [ "--update-input" "nixpkgs" "-L" ];
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L"
+    ];
     dates = "weekly";
   };
 }

@@ -10,23 +10,23 @@
   ];
   hardware.enableRedistributableFirmware = true;
 
-  hardware.graphics = { 
-  	enable = true;
-  	enable32Bit = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
   };
 
   programs = {
     firefox.enable = true;
   };
-  
+
   environment.systemPackages = with pkgs; [
     baobab
     xdg-user-dirs
     xdg-utils
     duf
-    lmms
-    spotify
-    processing
+    #lmms
+    #spotify
+    #processing
     yt-dlp
   ];
 
@@ -48,4 +48,4 @@
       }
     })
   '';
-} 
+}
