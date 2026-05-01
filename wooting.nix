@@ -3,6 +3,7 @@
   hardware.wooting.enable = true;
 
   environment.systemPackages = with pkgs; [
+    wootility
     wooting-udev-rules
   ];
 }
