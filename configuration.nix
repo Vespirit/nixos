@@ -19,6 +19,7 @@
     ./fonts.nix
     ./vm.nix
     ./wooting.nix
+    ./input-remapper.nix
   ];
 
   hardware.i2c.enable = true;
